@@ -341,6 +341,9 @@ local function create_new_instance(claude_code, config, git, instance_id)
     local buffer_name = generate_buffer_name(instance_id, config)
     vim.api.nvim_buf_set_name(new_bufnr, buffer_name)
 
+    -- Set filetype
+    vim.api.nvim_set_option_value('filetype', 'claude-code', {buf = new_bufnr})
+
     -- Configure window options
     configure_window_options(win_id, config)
 
@@ -366,8 +369,9 @@ local function create_new_instance(claude_code, config, git, instance_id)
     local buffer_name = generate_buffer_name(instance_id, config)
     vim.cmd('file ' .. buffer_name)
 
-    -- Ensure buffer remains unlisted
+    -- Ensure buffer remains unlisted and set filetype
     vim.cmd 'setlocal nobuflisted'
+    vim.cmd 'setlocal filetype=claude-code'
 
     -- Configure window options using helper function
     local current_win = vim.api.nvim_get_current_win()
