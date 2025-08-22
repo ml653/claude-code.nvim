@@ -161,6 +161,9 @@ local function configure_window_options(win_id, config)
   if config.window.hide_signcolumn then
     vim.api.nvim_set_option_value('signcolumn', 'no', {win = win_id})
   end
+
+  -- Set Terminal highlight for the window
+  vim.api.nvim_set_option_value('winhighlight', 'Normal:Terminal', {win = win_id})
 end
 
 --- Generate buffer name for instance
