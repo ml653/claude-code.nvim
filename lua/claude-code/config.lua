@@ -44,6 +44,7 @@ local M = {}
 -- @field toggle ClaudeCodeKeymapsToggle Keymaps for toggling Claude Code
 -- @field window_navigation boolean Enable window navigation keymaps
 -- @field scrolling boolean Enable scrolling keymaps
+-- @field submit string|boolean Keymap for submitting input (defaults to <C-s>), false to disable custom submit
 
 --- ClaudeCodeCommandVariants class for command variant configuration
 -- @table ClaudeCodeCommandVariants
@@ -133,6 +134,7 @@ M.default_config = {
     },
     window_navigation = true, -- Enable window navigation keymaps (<C-h/j/k/l>)
     scrolling = true, -- Enable scrolling keymaps (<C-f/b>) for page up/down
+    submit = '<C-s>', -- Keymap for submitting input, false to disable custom submit
   },
 }
 
@@ -357,6 +359,10 @@ local function validate_keymaps_config(keymaps)
 
   if type(keymaps.scrolling) ~= 'boolean' then
     return false, 'keymaps.scrolling must be a boolean'
+  end
+
+  if not (keymaps.submit == false or type(keymaps.submit) == 'string') then
+    return false, 'keymaps.submit must be a string or false'
   end
 
   return true, nil

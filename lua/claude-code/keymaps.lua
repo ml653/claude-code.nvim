@@ -188,6 +188,27 @@ function M.setup_terminal_navigation(claude_code, config)
         { noremap = true, silent = true, desc = 'Scroll full page up' }
       )
     end
+
+    -- Disable Enter key for submission and add custom submit keymap
+    if config.keymaps.submit then
+      -- Disable Enter key by mapping it to a no-op
+      vim.api.nvim_buf_set_keymap(
+        buf,
+        't',
+        '<CR>',
+        '\n',
+        { noremap = true, silent = true, desc = 'Enter inserts backslash' }
+      )
+
+      -- Add custom submit keymap
+      vim.api.nvim_buf_set_keymap(
+        buf,
+        't',
+        config.keymaps.submit,
+        '<CR>',
+        { noremap = true, silent = true, desc = 'Submit input to Claude Code' }
+      )
+    end
   end
 end
 
