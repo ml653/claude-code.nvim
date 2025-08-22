@@ -275,7 +275,7 @@ local function is_valid_terminal_buffer(bufnr)
   pcall(function()
     buftype = vim.api.nvim_get_option_value('buftype', {buf = bufnr})
   end)
-  
+
   local terminal_job_id = nil
   pcall(function()
     terminal_job_id = vim.b[bufnr].terminal_job_id
@@ -365,6 +365,9 @@ local function create_new_instance(claude_code, config, git, instance_id)
     -- Create a unique buffer name
     local buffer_name = generate_buffer_name(instance_id, config)
     vim.cmd('file ' .. buffer_name)
+
+    -- Ensure buffer remains unlisted
+    vim.cmd 'setlocal nobuflisted'
 
     -- Configure window options using helper function
     local current_win = vim.api.nvim_get_current_win()
