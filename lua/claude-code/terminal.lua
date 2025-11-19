@@ -404,7 +404,10 @@ function M.toggle(claude_code, config, git)
 
   -- Validate existing buffer
   if bufnr and not is_valid_terminal_buffer(bufnr) then
-    -- Buffer is no longer a valid terminal, reset
+    -- Buffer is no longer a valid terminal, clean up and reset
+    if vim.api.nvim_buf_is_valid(bufnr) then
+      vim.api.nvim_buf_delete(bufnr, { force = true })
+    end
     claude_code.claude_code.instances[instance_id] = nil
     bufnr = nil
   end
